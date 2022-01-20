@@ -1,4 +1,4 @@
 FROM openjdk:8
 EXPOSE 8080
-ADD target/order-service.jar order-service.jar 
-ENTRYPOINT ["java","-jar","/order-service.jar"]
+ADD target/api-1.0.0-SNAPSHOT.jar api-1.0.0-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","/api-1.0.0-SNAPSHOT.jar"]
