@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  description: A simple API to illustrate OpenAPI concepts
+  title: Simple API
+  version: 1.0.0
+servers:
+- url: https://example.io/v1
+security:
+- BasicAuth: []
+paths:
+  /artists:
+    get:
+      description: Returns a list of artists
+      operationId: artistsGET
+      parameters:
+      - description: Limits the number of items on a page
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Specifies the page number of the artists to be displayed
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Artist'
+                type: array
+          description: Successfully returned a list of artists
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+          description: Invalid request
+      x-eov-operation-handler: controllers/DefaultController
+      x-accepts: application/json
+    post:
+      description: Lets a user post a new artist
+      operationId: artistsPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Artist'
+        required: true
+      responses:
+        "200":
+          description: Successfully created a new artist
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+          description: Invalid request
+      x-eov-operation-handler: controllers/DefaultController
+      x-contentType: application/json
+      x-accepts: application/json
+  /artists/{username}:
+    get:
+      description: Obtain information about an artist from his or her unique username
+      operationId: artistsUsernameGET
+      parameters:
+      - explode: false
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: Successfully returned an artist
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+          description: Invalid request
+      x-eov-operation-handler: controllers/DefaultController
+      x-accepts: application/json
+components:
+  schemas:
+    Artist:
+      example:
+        artist_name: amit
+        albums_recorded: 0
+        artist_genre: Rock
+        username: username
+      properties:
+        artist_name:
+          type: string
+        artist_genre:
+          type: string
+        albums_recorded:
+          type: integer
+        username:
+          type: string
+      required:
+      - username
+      type: object
+    inline_response_400:
+      properties:
+        message:
+          type: string
+      type: object
+    inline_response_200:
+      example:
+        artist_name: artist_name
+        albums_recorded: 0
+        artist_genre: artist_genre
+      properties:
+        artist_name:
+          type: string
+        artist_genre:
+          type: string
+        albums_recorded:
+          type: integer
+      type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http

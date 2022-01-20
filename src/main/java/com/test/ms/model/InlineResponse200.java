@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * InlineResponse200
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-01-19T23:39:44.145121+05:30[Asia/Kolkata]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-01-19T23:55:52.070683+05:30[Asia/Kolkata]")
 public class InlineResponse200   {
   @JsonProperty("artist_name")
   private String artistName;
